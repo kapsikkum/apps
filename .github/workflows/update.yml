@@ -69,7 +69,7 @@ jobs:
         run: |
           mkdir -p site/fdroid
           cp -r fdroid/repo site/fdroid/repo
-          cp index.html site/index.html
+          cp index.html fdroid-qr.svg site/
           touch site/.nojekyll
 
       - uses: actions/configure-pages@v5

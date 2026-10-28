@@ -8,6 +8,12 @@ https://kapsikkum.github.io/apps/.
 | F-Droid / Droid-ify / Neo Store | `https://kapsikkum.github.io/apps/fdroid/repo` |
 | SideStore / AltStore | `https://kapsikkum.github.io/apps/sidestore.json` |
 
+Scan with F-Droid to add the repository (the code includes its key fingerprint):
+
+<img src="fdroid-qr.svg" width="200" alt="QR code that adds the F-Droid repository">
+
+Fingerprint: `E1329DD0AC232D12B7506064218F908906A4ED23BB7A4BFE2A1FB841EC99BECB`
+
 Apps: [Mudrix](https://github.com/kapsikkum/mudrix-web), [PhotoScout](https://github.com/kapsikkum/photoscout).
 
 ## How it works

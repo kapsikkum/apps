@@ -13,6 +13,7 @@
   section { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
   h2 { margin: 0 0 8px; font-size: 1.1rem; }
   code { word-break: break-all; }
+  .qr { display: block; background: #fff; border-radius: 8px; }
   a { color: var(--accent); }
 </style>
 </head>
@@ -25,6 +26,9 @@
     <h2>Android: F-Droid</h2>
     <p>Add this repository in F-Droid, Droid-ify or Neo Store:</p>
     <p><a href="https://kapsikkum.github.io/apps/fdroid/repo"><code>https://kapsikkum.github.io/apps/fdroid/repo</code></a></p>
+    <p>Or scan this with F-Droid (Settings, Repositories, then the QR button). It includes the repository's key fingerprint, so F-Droid checks it is the right one:</p>
+    <img class="qr" src="fdroid-qr.svg" width="200" height="200" alt="QR code that adds the F-Droid repository">
+    <p class="sub">Fingerprint: <code>E1329DD0AC232D12B7506064218F908906A4ED23BB7A4BFE2A1FB841EC99BECB</code></p>
   </section>
 
   <section>
