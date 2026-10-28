@@ -1,0 +1,79 @@
+name: Update repos
+
+# Rebuilds the F-Droid repo and the SideStore source from the apps' latest GitHub releases and
+# publishes them to GitHub Pages. Runs when an app release fires `repository_dispatch` (type
+# app-release), every 6 hours as a fallback, on pushes to main and by hand.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 */6 * * *'
+  repository_dispatch:
+    types: [app-release]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends apksigner
+      - run: pip install fdroidserver
+
+      - name: Fetch the releases
+        run: node scripts/build.mjs
+
+      - name: Write the F-Droid config
+        env:
+          KEYSTORE_BASE64: ${{ secrets.FDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.FDROID_KEYSTORE_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 --decode > fdroid/keystore.jks
+          {
+            echo "repo_url: https://kapsikkum.github.io/apps/fdroid/repo"
+            echo "repo_name: kapsikkum apps"
+            echo "repo_description: Android builds of kapsikkum apps."
+            echo "archive_older: 0"
+            echo "keystore: keystore.jks"
+            echo "repo_keyalias: apps"
+            echo "keystorepass: $KEYSTORE_PASSWORD"
+            echo "keypass: $KEYSTORE_PASSWORD"
+            echo "keydname: CN=kapsikkum apps"
+          } > fdroid/config.yml
+          chmod 600 fdroid/config.yml
+
+      - name: Build the F-Droid index
+        working-directory: fdroid
+        run: fdroid update --create-metadata --delete-unknown
+
+      - name: Assemble the site
+        run: |
+          mkdir -p site/fdroid
+          cp -r fdroid/repo site/fdroid/repo
+          cp index.html site/index.html
+          touch site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - uses: actions/deploy-pages@v4

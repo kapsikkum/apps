@@ -1,0 +1,8 @@
+fdroid/repo/
+fdroid/archive/
+fdroid/tmp/
+fdroid/config.yml
+fdroid/keystore.jks
+site/
+*.jks
+.secrets/

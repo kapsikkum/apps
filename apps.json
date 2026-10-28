@@ -1,0 +1,33 @@
+{
+  "name": "kapsikkum apps",
+  "description": "Android and iOS builds of kapsikkum apps.",
+  "url": "https://kapsikkum.github.io/apps",
+  "apps": [
+    {
+      "id": "mudrix",
+      "name": "Mudrix",
+      "subtitle": "A Matrix chat client",
+      "description": "End-to-end encrypted Matrix client with spaces, calls, themes and rich profiles.",
+      "repo": "kapsikkum/mudrix-mobile",
+      "release": "latest-stable",
+      "android": { "package": "chat.mudrix.mobile", "asset": "Mudrix-release-app-universal-release.apk" },
+      "ios": { "bundleId": "chat.mudrix.mobile", "asset": "Mudrix-unsigned.ipa" },
+      "icon": "https://raw.githubusercontent.com/kapsikkum/mudrix-mobile/main/app-icon.png",
+      "tint": "#8a6a4a",
+      "license": "AGPL-3.0-only"
+    },
+    {
+      "id": "photoscout",
+      "name": "PhotoScout",
+      "subtitle": "Photography spots, events and light",
+      "description": "A map of photography spots, the events worth shooting, and when the light works at them.",
+      "repo": "kapsikkum/photoscout",
+      "release": "latest",
+      "android": { "package": "com.photoscout.app", "asset": "PhotoScout-release.apk" },
+      "ios": { "bundleId": "com.photoscout.app", "asset": "PhotoScout-unsigned.ipa" },
+      "icon": "https://raw.githubusercontent.com/kapsikkum/photoscout/master/ios/PhotoScout/Assets.xcassets/AppIcon.appiconset/icon-1024.png",
+      "tint": "#2f7d6d",
+      "license": "MIT"
+    }
+  ]
+}
