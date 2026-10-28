@@ -6,6 +6,7 @@ https://kapsikkum.github.io/apps/.
 | | URL |
 | --- | --- |
 | F-Droid / Droid-ify / Neo Store | `https://kapsikkum.github.io/apps/fdroid/repo` |
+| Obtainium | no repository needed: add the app's GitHub repo, or use the links on the [landing page](https://kapsikkum.github.io/apps/). Pick the `arm64` APK for Mudrix. |
 | SideStore / AltStore | `https://kapsikkum.github.io/apps/sidestore.json` |
 
 Scan with F-Droid to add the repository (the code includes its key fingerprint):
