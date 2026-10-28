@@ -43,7 +43,12 @@ for (const app of cfg.apps) {
   console.log(`${app.name}: ${rel.tagName} (${version})`);
 
   if (app.android) {
-    gh('release', 'download', rel.tagName, '-R', app.repo, '-p', app.android.asset, '-D', 'fdroid/repo', '--clobber');
+    // Every listed APK the release has (an older release may still carry the universal one).
+    for (const name of app.android.assets) {
+      if (rel.assets.some((a) => a.name === name)) {
+        gh('release', 'download', rel.tagName, '-R', app.repo, '-p', name, '-D', 'fdroid/repo', '--clobber');
+      }
+    }
     writeFileSync(
       `fdroid/metadata/${app.android.package}.yml`,
       [
