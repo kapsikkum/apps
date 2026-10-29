@@ -24,6 +24,10 @@ Apps: [Mudrix](https://github.com/kapsikkum/mudrix-web), [PhotoScout](https://gi
 source (IPAs are linked from the GitHub release, not copied). `fdroid update` then signs the F-Droid index, and
 the result is deployed to Pages. It runs every 6 hours, on `repository_dispatch` of type `app-release`, and by hand.
 
+SideStore's "What's new" for a version is that release's notes, cleaned up by `scripts/notes.mjs`. The mobile
+releases have no notes of their own, so `"notes"` in `apps.json` names the repo (the web client) whose release of the
+same version is used instead.
+
 ## Adding an app
 
 Add an entry to `apps.json` (`repo`, the release tag or `latest-stable`, the APK and IPA asset names, the Android

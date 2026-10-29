@@ -9,6 +9,7 @@
       "subtitle": "A Matrix chat client",
       "description": "End-to-end encrypted Matrix client with spaces, calls, themes and rich profiles.",
       "repo": "kapsikkum/mudrix-mobile",
+      "notes": "kapsikkum/mudrix-web",
       "release": "latest-stable",
       "android": { "package": "chat.mudrix.mobile", "assets": ["Mudrix-release-app-arm64-release.apk", "Mudrix-release-app-x86_64-release.apk", "Mudrix-release-app-universal-release.apk"] },
       "ios": { "bundleId": "chat.mudrix.mobile", "asset": "Mudrix-unsigned.ipa" },

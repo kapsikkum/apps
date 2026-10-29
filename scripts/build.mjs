@@ -7,6 +7,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { cleanNotes } from './notes.mjs';
 
 const cfg = JSON.parse(readFileSync('apps.json', 'utf8'));
 const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 1 << 26 });
@@ -33,6 +34,18 @@ function ipaVersion(app, rel) {
     return execFileSync(process.platform === 'win32' ? 'python' : 'python3', ['-c', py, join(dir, app.ios.asset)], { encoding: 'utf8' }).trim();
   } finally {
     rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+// What's new for a version: the app's own release notes, or, when it has none (the mobile releases don't), the
+// notes of the release of the same version in the repo named by `notes` (the web client the mobile app wraps).
+function releaseNotes(app, rel, version) {
+  const own = cleanNotes(rel.body);
+  if (own || !app.notes) return own;
+  try {
+    return cleanNotes(JSON.parse(gh('release', 'view', `v${version}`, '-R', app.notes, '--json', 'body')).body);
+  } catch {
+    return '';
   }
 }
 
@@ -108,7 +121,7 @@ for (const app of cfg.apps) {
           date: releasedAt,
           size: ipa.size,
           downloadURL: ipa.url,
-          localizedDescription: (rel.body || '').slice(0, 1500),
+          localizedDescription: releaseNotes(app, rel, version),
           minOSVersion: '15.0',
         },
       ],
