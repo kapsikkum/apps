@@ -4,7 +4,9 @@
 //   site/sidestore.json      the AltStore/SideStore source (IPAs stay on the GitHub release)
 // Needs the `gh` CLI (GH_TOKEN) and runs from the repository root.
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 const cfg = JSON.parse(readFileSync('apps.json', 'utf8'));
 const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 1 << 26 });
@@ -17,6 +19,22 @@ const pickRelease = (app) =>
       ? gh('release', 'view', '-R', app.repo, '--json', FIELDS)
       : gh('release', 'view', app.release, '-R', app.repo, '--json', FIELDS)
   );
+
+// SideStore refuses an IPA whose own version differs from the one the source lists, so a rolling release
+// (no version in its tag) is versioned by what the IPA says about itself.
+function ipaVersion(app, rel) {
+  const dir = mkdtempSync(join(tmpdir(), 'ipa-'));
+  try {
+    gh('release', 'download', rel.tagName, '-R', app.repo, '-p', app.ios.asset, '-D', dir, '--clobber');
+    const py =
+      'import plistlib,sys,zipfile; z=zipfile.ZipFile(sys.argv[1]); ' +
+      'n=[n for n in z.namelist() if n.count("/")==2 and n.endswith(".app/Info.plist")][0]; ' +
+      'print(plistlib.loads(z.read(n))["CFBundleShortVersionString"])';
+    return execFileSync(process.platform === 'win32' ? 'python' : 'python3', ['-c', py, join(dir, app.ios.asset)], { encoding: 'utf8' }).trim();
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
 
 rmSync('fdroid/repo', { recursive: true, force: true });
 mkdirSync('fdroid/repo', { recursive: true });
@@ -38,12 +56,14 @@ const source = {
 for (const app of cfg.apps) {
   const rel = pickRelease(app);
   const tag = rel.tagName.replace(/^v/, '');
-  // A rolling "latest" release is overwritten in place, so its publish date never moves. It is versioned by
-  // when its assets were last replaced instead, so a rebuilt IPA shows up as an update.
+  const rolling = !/^\d/.test(tag);
+  // A rolling "latest" release is overwritten in place, so its publish date never moves: it is dated by when its
+  // assets were last replaced instead, and versioned by the IPA's own version.
   const wanted = [app.ios?.asset, ...(app.android?.assets ?? [])];
   const stamps = rel.assets.filter((a) => wanted.includes(a.name)).map((a) => a.updatedAt);
-  const releasedAt = /^\d/.test(tag) ? rel.publishedAt : stamps.sort().at(-1) ?? rel.publishedAt;
-  const version = /^\d/.test(tag) ? tag : releasedAt.slice(0, 10).replaceAll('-', '.');
+  const releasedAt = rolling ? stamps.sort().at(-1) ?? rel.publishedAt : rel.publishedAt;
+  const hasIpa = app.ios && rel.assets.some((a) => a.name === app.ios.asset);
+  const version = !rolling ? tag : hasIpa ? ipaVersion(app, rel) : releasedAt.slice(0, 10).replaceAll('-', '.');
   console.log(`${app.name}: ${rel.tagName} (${version})`);
 
   if (app.android) {
