@@ -38,8 +38,12 @@ const source = {
 for (const app of cfg.apps) {
   const rel = pickRelease(app);
   const tag = rel.tagName.replace(/^v/, '');
-  // A rolling "latest" release has no version of its own, so it is versioned by its date.
-  const version = /^\d/.test(tag) ? tag : rel.publishedAt.slice(0, 10).replaceAll('-', '.');
+  // A rolling "latest" release is overwritten in place, so its publish date never moves. It is versioned by
+  // when its assets were last replaced instead, so a rebuilt IPA shows up as an update.
+  const wanted = [app.ios?.asset, ...(app.android?.assets ?? [])];
+  const stamps = rel.assets.filter((a) => wanted.includes(a.name)).map((a) => a.updatedAt);
+  const releasedAt = /^\d/.test(tag) ? rel.publishedAt : stamps.sort().at(-1) ?? rel.publishedAt;
+  const version = /^\d/.test(tag) ? tag : releasedAt.slice(0, 10).replaceAll('-', '.');
   console.log(`${app.name}: ${rel.tagName} (${version})`);
 
   if (app.android) {
@@ -81,7 +85,7 @@ for (const app of cfg.apps) {
       versions: [
         {
           version,
-          date: rel.publishedAt,
+          date: releasedAt,
           size: ipa.size,
           downloadURL: ipa.url,
           localizedDescription: (rel.body || '').slice(0, 1500),
