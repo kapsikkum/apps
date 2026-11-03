@@ -29,6 +29,19 @@
       "icon": "https://raw.githubusercontent.com/24th-Frame-Media/photoscout/master/ios/PhotoScout/Assets.xcassets/AppIcon.appiconset/icon-1024.png",
       "tint": "#2f7d6d",
       "license": "MIT"
+    },
+    {
+      "id": "opnscrl",
+      "name": "opnscrl",
+      "subtitle": "Carousel slicer for Instagram",
+      "description": "Lay photos across a seamless multi-slide carousel, and export the slides straight to your gallery.",
+      "repo": "kapsikkum/opnscrl",
+      "release": "latest-stable",
+      "android": { "package": "app.opnscrl.mobile", "assets": ["opnscrl-{version}-android-arm64.apk", "opnscrl-{version}-android-x86_64.apk"] },
+      "ios": { "bundleId": "app.opnscrl.mobile", "asset": "opnscrl-{version}-ios-unsigned.ipa" },
+      "icon": "https://raw.githubusercontent.com/kapsikkum/opnscrl/main/app-icon.png",
+      "tint": "#8a6a4a",
+      "license": "MIT"
     }
   ]
 }

@@ -15,7 +15,7 @@ Scan with F-Droid to add the repository (the code includes its key fingerprint):
 
 Fingerprint: `E1329DD0AC232D12B7506064218F908906A4ED23BB7A4BFE2A1FB841EC99BECB`
 
-Apps: [Mudrix](https://github.com/kapsikkum/mudrix-web), [PhotoScout](https://github.com/kapsikkum/photoscout).
+Apps: [Mudrix](https://github.com/kapsikkum/mudrix-web), [PhotoScout](https://github.com/kapsikkum/photoscout), [opnscrl](https://github.com/kapsikkum/opnscrl).
 
 ## How it works
 
@@ -31,7 +31,7 @@ same version is used instead.
 ## Adding an app
 
 Add an entry to `apps.json` (`repo`, the release tag or `latest-stable`, the APK and IPA asset names, the Android
-package and iOS bundle id). Only the latest release of each app is kept in the F-Droid repo.
+package and iOS bundle id). Asset names may contain `{version}` for releases that put the version in the file name. Only the latest release of each app is kept in the F-Droid repo.
 
 ## Notes
 

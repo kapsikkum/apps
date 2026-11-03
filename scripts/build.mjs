@@ -67,8 +67,17 @@ const source = {
 };
 
 for (const app of cfg.apps) {
-  const rel = pickRelease(app);
+  let rel;
+  try {
+    rel = pickRelease(app);
+  } catch {
+    console.log(`${app.name}: no release yet, skipped`);
+    continue;
+  }
   const tag = rel.tagName.replace(/^v/, '');
+  // Asset names may contain "{version}" (the tag without its leading "v"), for releases that put it in the file name.
+  if (app.ios) app.ios.asset = app.ios.asset.replaceAll('{version}', tag);
+  if (app.android) app.android.assets = app.android.assets.map((n) => n.replaceAll('{version}', tag));
   const rolling = !/^\d/.test(tag);
   // A rolling "latest" release is overwritten in place, so its publish date never moves: it is dated by when its
   // assets were last replaced instead, and versioned by the IPA's own version.
