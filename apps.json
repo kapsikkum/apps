@@ -42,6 +42,19 @@
       "icon": "https://raw.githubusercontent.com/kapsikkum/opnscrl/main/app-icon.png",
       "tint": "#8a6a4a",
       "license": "MIT"
+    },
+    {
+      "id": "convoyage",
+      "name": "Convoyage",
+      "subtitle": "Convoys for cars and motorcycles (beta)",
+      "description": "Live convoy map with regroup alerts, hazard reports and a motorcycle ride HUD. Beta: expect rough edges.",
+      "repo": "kapsikkum/convoyage",
+      "release": "beta",
+      "android": { "package": "app.convoyage", "assets": ["Convoyage-release.apk"] },
+      "ios": { "bundleId": "app.convoyage", "asset": "Convoyage-unsigned.ipa" },
+      "icon": "https://raw.githubusercontent.com/kapsikkum/convoyage/main/ios/Convoyage/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+      "tint": "#2de2e6",
+      "license": "Proprietary"
     }
   ]
 }
