@@ -1,6 +1,6 @@
 // Turns a GitHub release body into the plain "What's new" text SideStore shows for a version: no markdown
 // headings, no install boilerplate, no pull request links.
-const SKIP_SECTIONS = /^(mudrix web\b|new contributors)/i;
+const SKIP_SECTIONS = /^(mudrix web\b|new contributors|install)$/i;
 
 export function cleanNotes(body, limit = 4000) {
   const sections = [{ title: '', lines: [] }];
@@ -25,7 +25,7 @@ export function cleanNotes(body, limit = 4000) {
         .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
         .trim();
       if (!line || /^full changelog\b/i.test(line)) continue;
-      items.add(/^[-*]\s+/.test(line) ? `• ${line.replace(/^[-*]\s+/, '')}` : line);
+      items.add(/^[-*]\s+/.test(line) ? `- ${line.replace(/^[-*]\s+/, '')}` : line);
     }
   }
   const out = [...merged]
