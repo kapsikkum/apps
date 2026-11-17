@@ -13,7 +13,7 @@
       "release": "latest-stable",
       "android": { "package": "chat.mudrix.mobile", "assets": ["Mudrix-{version}-release.apk"] },
       "ios": { "bundleId": "chat.mudrix.mobile", "asset": "Mudrix-unsigned.ipa", "minOS": "18.0" },
-      "icon": "https://raw.githubusercontent.com/kapsikkum/mudrix/v26.12.0/apps/desktop/src-tauri/icons/icon.png",
+      "icon": "https://raw.githubusercontent.com/kapsikkum/mudrix/v26.12.1/apps/desktop/src-tauri/icons/icon.png",
       "tint": "#8a6a4a",
       "license": "AGPL-3.0-only"
     },
