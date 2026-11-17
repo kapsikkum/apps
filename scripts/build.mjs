@@ -131,7 +131,7 @@ for (const app of cfg.apps) {
           size: ipa.size,
           downloadURL: ipa.url,
           localizedDescription: releaseNotes(app, rel, version),
-          minOSVersion: '15.0',
+          minOSVersion: app.ios.minOS ?? '15.0',
         },
       ],
     });

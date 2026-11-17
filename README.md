@@ -15,7 +15,7 @@ Scan with F-Droid to add the repository (the code includes its key fingerprint):
 
 Fingerprint: `E1329DD0AC232D12B7506064218F908906A4ED23BB7A4BFE2A1FB841EC99BECB`
 
-Apps: [Mudrix](https://github.com/kapsikkum/mudrix-web), [PhotoScout](https://github.com/kapsikkum/photoscout), [opnscrl](https://github.com/kapsikkum/opnscrl).
+Apps: [Mudrix](https://github.com/kapsikkum/mudrix), [PhotoScout](https://github.com/kapsikkum/photoscout), [opnscrl](https://github.com/kapsikkum/opnscrl).
 
 ## How it works
 
